@@ -6,6 +6,7 @@ from datetime import datetime
 from dotenv import load_dotenv
 import os
 
+
 load_dotenv()
 app = FastAPI()
 
@@ -21,6 +22,7 @@ class ProfileRequest(BaseModel):
     resume_id: int
     source_id: int
 
+
 def scrape_profile_certifications(profile_url: str, resume_id: int, source_id: int):
     headers = {'Authorization': 'Bearer ' + PROXYCURL_API_KEY}
     api_endpoint = 'https://nubela.co/proxycurl/api/v2/linkedin'
@@ -31,11 +33,11 @@ def scrape_profile_certifications(profile_url: str, resume_id: int, source_id: i
         response = requests.get(api_endpoint, params=params, headers=headers)
         response.raise_for_status()
         profile_data = response.json()
-        
+
         if 'certifications' in profile_data:
             for cert in profile_data['certifications']:
                 year = cert.get('starts_at', {}).get('year')
-                
+
                 certification = {
                     'resume_id': resume_id,
                     'name': cert.get('name', ''),
@@ -47,22 +49,29 @@ def scrape_profile_certifications(profile_url: str, resume_id: int, source_id: i
                     'license_number': cert.get('license_number'),
                     'url': cert.get('url')
                 }
-                
+
                 supabase.table('resume_certifications').insert(certification).execute()
-        
+
         return len(profile_data.get('certifications', []))
     except requests.exceptions.RequestException as e:
-        raise HTTPException(status_code=500, detail=f"An error occurred while scraping certifications: {str(e)}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"An error occurred while scraping certifications: {str(e)}"
+        )
+
 
 def scrape_profile_recommendations(profile_url: str, resume_id: int):
     url = "https://api.scrapin.io/enrichment/profile"
-    querystring = {"SCRAPIN_API_KEY":SCRAPIN_API_KEY,"linkedInUrl":profile_url}
+    querystring = {
+        "SCRAPIN_API_KEY": SCRAPIN_API_KEY,
+        "linkedInUrl": profile_url
+    }
 
     try:
         response = requests.request("GET", url, params=querystring)
         response.raise_for_status()
         profile_data = response.json()
-        
+
         recommendations_count = 0
         if 'recommendations' in profile_data:
             for rec in profile_data['recommendations']:
@@ -89,13 +98,17 @@ def scrape_profile_recommendations(profile_url: str, resume_id: int):
                     'source': 'LinkedIn',
                     'date': date
                 }
-                
+
                 supabase.table('recommendations').insert(recommendation).execute()
                 recommendations_count += 1
-        
+
         return recommendations_count
     except requests.exceptions.RequestException as e:
-        raise HTTPException(status_code=500, detail=f"An error occurred while scraping recommendations: {str(e)}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"An error occurred while scraping recommendations: {str(e)}"
+        )
+
 
 @app.post("/scrape-linkedin-profile")
 async def scrape_linkedin_profile(profile_request: ProfileRequest):
@@ -109,7 +122,7 @@ async def scrape_linkedin_profile(profile_request: ProfileRequest):
             profile_request.profile_url,
             profile_request.resume_id
         )
-        
+
         return {
             "message": "Profile scraped successfully",
             "certifications_added": certifications_count,
@@ -118,8 +131,13 @@ async def scrape_linkedin_profile(profile_request: ProfileRequest):
     except HTTPException as e:
         raise e
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"An unexpected error occurred: {str(e)}")
+        raise HTTPException(
+            status_code=500,
+            detail=f"An unexpected error occurred: {str(e)}"
+        )
+
 
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
+    
