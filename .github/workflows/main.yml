@@ -64,7 +64,7 @@ jobs:
         pip install -r requirements.txt
     - name: Deploy to AWS
       run: npm run build
-           npx sst deploy --stage prod 
+           npm run deploy -- --stage $SST_STAGE
       env:
         SUPABASE_URL: ${{secrets.SUPABASE_URL}}
         SUPABASE_KEY: ${{secrets.SUPABASE_KEY}}
@@ -72,3 +72,4 @@ jobs:
         SCRAPIN_API_KEY: ${{secrets.SCRAPIN_API_KEY}}
         AWS_ACCESS_KEY_ID: ${{secrets.AWS_ACCESS_KEY_ID}}
         AWS_SECRET_ACCESS_KEY: ${{secrets.AWS_SECRET_ACCESS_KEY}}
+        SST_STAGE: prod

@@ -6,6 +6,7 @@ export default {
     return {
       name: "linkedin_scrapper-app",
       region: "eu-west-3",
+      stage: process.env.SST_STAGE || "dev",
     };
   },
   stacks(app) {
