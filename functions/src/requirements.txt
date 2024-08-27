@@ -7,3 +7,6 @@ mangum
 boto3
 pytest
 flake8
+pydantic
+os
+datetime
