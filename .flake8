@@ -1,10 +1,14 @@
 [flake8]
 max-line-length = 100
-extend-ignore = E203, E266, E501, W503
+extend-ignore = E203, E266, E501, W503 , W292
 exclude =
     .git,
     __pycache__,
     build,
     dist,
     .venv
+    .env
+    Dockerfile
+    package.json
+    sst.config.ts
 max-complexity = 10
