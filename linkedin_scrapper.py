@@ -1,10 +1,9 @@
-from fastapi import FastAPI, HTTPException 
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 import requests
 from supabase import create_client, Client
 from datetime import datetime
-from dotenv import load_dotenv
 import os
 from mangum import Mangum
 
@@ -142,8 +141,11 @@ async def scrape_linkedin_profile(profile_request: ProfileRequest):
             status_code=500,
             detail=f"An unexpected error occurred: {str(e)}"
         )
+
+
 def handler(event, context):
     return mangum_handler(app, event, context)
+
 
 mangum_handler = Mangum(app)
 

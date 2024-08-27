@@ -11,4 +11,5 @@ exclude =
     Dockerfile
     package.json
     sst.config.ts
+    node_modules
 max-complexity = 10
