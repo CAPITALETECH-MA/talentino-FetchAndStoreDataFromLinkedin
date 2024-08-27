@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+requests
+supabase
+python-dotenv
+mangum
+boto3
+pytest
+flake8
+pydantic
