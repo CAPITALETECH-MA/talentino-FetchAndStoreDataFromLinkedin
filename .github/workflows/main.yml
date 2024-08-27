@@ -62,6 +62,11 @@ jobs:
         npm ci
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+
+    - name: Build 
+      run: |
+        npx sst build
+
     - name: Deploy to AWS
       run: npx sst deploy --stage prod
       env:
