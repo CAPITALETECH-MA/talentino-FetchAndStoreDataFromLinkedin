@@ -14,7 +14,7 @@ export function API({ stack }: StackContext) {
       },
     },
     routes: {
-      "POST /scrape-linkedin-profile": "functions/linkedin_scrapper.handler",
+      "POST /scrape-linkedin-profile": "linkedin_scrapper.handler",
     },
   });
 
