@@ -10,12 +10,6 @@ export default {
     };
   },
   stacks(app) {
-    app.setDefaultFunctionProps({
-      runtime: "python3.9",
-      copyFiles: [{ from: "functions", to: "." }],
-    });
-    app.stack(API, {
-      id: "api-stack",
-    });
+    app.stack(API);
   }
 } satisfies SSTConfig ;
