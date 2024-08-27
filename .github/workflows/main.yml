@@ -63,8 +63,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Deploy to AWS
-      run: npm run build
-           npm run deploy -- --stage $SST_STAGE
+      run: npx sst deploy --stage prod
       env:
         SUPABASE_URL: ${{secrets.SUPABASE_URL}}
         SUPABASE_KEY: ${{secrets.SUPABASE_KEY}}
