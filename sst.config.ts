@@ -10,6 +10,15 @@ export default {
     };
   },
   stacks(app) {
+    app.setDefaultFunctionProps({
+      runtime: "python3.9",
+      architecture: "arm_64",
+      nodejs: {
+        esbuild: {
+          external: ['@aws-sdk/*'],
+        },
+      },
+    });
     app.stack(API);
   }
 } satisfies SSTConfig ;
