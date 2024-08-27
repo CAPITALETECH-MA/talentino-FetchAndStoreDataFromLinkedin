@@ -16,7 +16,9 @@
     "@types/node": "^22.5.0",
     "aws-cdk-lib": "2.142.1",
     "constructs": "10.3.0",
-    "sst": "^3.0.0",
     "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "sst": "^3.0.0"
   }
 }
