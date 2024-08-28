@@ -63,7 +63,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     
-    - name: Bootstrap CDK  
+    - name: Bootstrap CDK in AWS
       run: |
         npx cdk bootstrap aws://905418298231/eu-west-3
         
